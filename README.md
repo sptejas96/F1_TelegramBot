@@ -1,4 +1,4 @@
-#F1 Telegram Bot
+# F1 Telegram Bot
 
 ## Introduction
 This is a telgram bot that can be added to a telegram group and supports the following simple function
