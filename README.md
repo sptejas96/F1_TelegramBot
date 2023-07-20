@@ -26,6 +26,7 @@ cd F1_TelegramBot
     "token":"<Enter bot token within double quotes>"
 }
 ```
+### Standalone on Host OS
 4. Install dependencies using pip (Recommended to use python virtual environment to avoid issues with libraries of different versions)
 ```sh
 python3 -m pip install -r requirements.txt
@@ -40,7 +41,23 @@ nohup python3 f1telegrambot.py >/dev/null 2>&1 &
 ```
 NOTE: In case of nohup, note down the PID to kill it later to stop the program
 
-NOTE: This code was tested on Linux. Adaptations might be required for running on other OS.
+### As a Podman or Docker Container
+4. Build the image
+```
+podman build -t f1bot .
+```
+This will build the image as per the Container file present.
+This currently has a Red Har UBI 9 Minimal base filesystem and installs additional Python dependencies
+5. Run the image in a container
+```
+podman -d run f1bot
+```
+This runs the container in detached mode.
+Use ```podman ps``` to view all running containers.
+Use ```podman stop <Container_ID>``` to stop the container
+
+NOTE: Replace 'podman' with 'docker' in above commands if you are using docker.
+NOTE: This code was tested on RHEL9. Adaptations might be required for running on other OS.
 
 ## Usage
 1. Invite the telegram bot to the telegram group using the name assigned by Telegram BotFather
