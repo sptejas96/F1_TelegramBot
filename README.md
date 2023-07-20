@@ -48,6 +48,7 @@ podman build -t f1bot .
 ```
 This will build the image as per the Container file present.
 This currently has a Red Har UBI 9 Minimal base filesystem and installs additional Python dependencies
+
 5. Run the image in a container
 ```
 podman -d run f1bot
