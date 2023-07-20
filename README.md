@@ -47,7 +47,7 @@ NOTE: In case of nohup, note down the PID to kill it later to stop the program
 podman build -t f1bot .
 ```
 This will build the image as per the Container file present.
-This currently has a Red Har UBI 9 Minimal base filesystem and installs additional Python dependencies
+This currently has a Red Hat UBI 9 Minimal Image and installs additional Python dependencies
 
 5. Run the image in a container
 ```
@@ -58,7 +58,10 @@ Use ```podman ps``` to view all running containers.
 Use ```podman stop <Container_ID>``` to stop the container
 
 NOTE: Replace 'podman' with 'docker' in above commands if you are using docker.
-NOTE: This code was tested on RHEL9. Adaptations might be required for running on other OS.
+
+NOTE: This code was developed and tested on RHEL9. Adaptations might be required for running on other OS.
+
+Refer RHEL guidelines on UBI images here: [access.redhat.com](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html-single/building_running_and_managing_containers/index#con_understanding-the-ubi-standard-images_assembly_types-of-container-images)
 
 ## Usage
 1. Invite the telegram bot to the telegram group using the name assigned by Telegram BotFather
