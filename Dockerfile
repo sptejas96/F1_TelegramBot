@@ -1,3 +1,4 @@
+EXPOSE 8080/tcp
 FROM registry.access.redhat.com/ubi9/ubi-minimal:latest
 
 WORKDIR /home/F1TelegramBot/src
