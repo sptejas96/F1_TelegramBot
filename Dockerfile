@@ -1,7 +1,7 @@
 FROM registry.access.redhat.com/ubi9/ubi-minimal:latest
 
 WORKDIR /home/F1TelegramBot/src
-EXPOSE 8081:8081/tcp
+EXPOSE 8081
 RUN microdnf -y install python39
 RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
 RUN python3 get-pip.py
