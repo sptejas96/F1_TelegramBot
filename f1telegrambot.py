@@ -12,7 +12,6 @@ one the user sends the bot
 import datetime
 import pytz
 import logging
-import pandas as pd
 from telegram import __version__ as TG_VER
 from bs4 import BeautifulSoup
 import requests
@@ -55,37 +54,25 @@ This function is called from the main when the command nextrace is sent from tel
 This provides details of the next race in F1 Calendar
 """
 async def next_race(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    '''respond with upcoming race details'''
-    race_list = pd.read_csv('poll_data.csv') #poll_data.csv contains details of F1 Races for the year. This needs to be regenerated every year
-
-    #Temporary rows to extract Race Month and Day to compare with current Month and Day 
-    race_list['race_month'] = race_list["sessions/fp1"].str.slice(5,7)
-    race_list['race_month'] = race_list['race_month'].astype(int)
-    race_list['race_day'] = race_list["sessions/fp1"].str.slice(8,10)
-    race_list['race_day'] = race_list['race_day'].astype(int)
-    race_list['curr_day'] = datetime.date.today().day
-    race_list['curr_month'] = datetime.date.today().month
-
-    #All Magic happens in the below few lines
-    next_race = race_list.query('race_month == curr_month & race_day > curr_day')
-    if next_race.empty:
-        #This is to handle the Dry Race season T_T
-        race_list['curr_month'] = datetime.date.today().month + 1
-        next_race = race_list.query('race_month == curr_month')
-    
-    #Extract details to publish
-    race_name = next_race["name"].values[0]
-    race_location = next_race["location"].values[0]
-    quali_date = next_race["sessions/qualifying"].values[0]
-    gp_date = next_race["sessions/gp"].values[0]
-    
-    #Converting to IST (GMT+5:30)
-    quali_IST=convert_time(quali_date)
-    gp_IST=convert_time(gp_date)
+    # '''respond with upcoming race details'''
     fmt = '%Y-%m-%d %H:%M:%S %Z%z'
+    with open("2023.json", "r") as f:
+        race_sch = json.load(f)
+    curr_time = datetime.datetime.today()
+    today_date = datetime.datetime.date(curr_time)
+    race_sch = race_sch["races"]
+    for i in range(len(race_sch)):
+        race_date = datetime.datetime.strptime(race_sch[i]["sessions"]["gp"][:10], "%Y-%m-%d").date()
+        if race_date >= today_date:
+            required_race = datetime.datetime.strptime(race_sch[i]["sessions"]["gp"][:10], "%Y-%m-%d").date()
+            gp = race_sch[i]
+            break
+    quali_IST = convert_time(gp["sessions"]["qualifying"])
+    gp_IST = convert_time(gp["sessions"]["gp"])
+    f.close()
     
     #Create a reply message to user command
-    await update.message.reply_text(f'Name: {race_name}\nLocation: {race_location} \nQualifying: {quali_IST.strftime(fmt)} \nGrand Prix: {gp_IST.strftime(fmt)}')
+    await update.message.reply_text(f'Name: {gp["name"]}\nLocation: {gp["location"]} \nQualifying: {quali_IST.strftime(fmt)} \nGrand Prix: {gp_IST.strftime(fmt)}')
 
 """
 Convert Time helper function
