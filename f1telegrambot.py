@@ -56,7 +56,7 @@ This provides details of the next race in F1 Calendar
 async def next_race(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     # '''respond with upcoming race details'''
     fmt = '%Y-%m-%d %H:%M:%S %Z%z'
-    with open("2023.json", "r") as f:
+    with open("2024.json", "r") as f:
         race_sch = json.load(f)
     curr_time = datetime.datetime.today()
     today_date = datetime.datetime.date(curr_time)

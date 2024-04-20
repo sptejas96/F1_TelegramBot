@@ -75,3 +75,5 @@ Refer RHEL guidelines on UBI images here: [access.redhat.com](https://access.red
 
 ## LICENSE
 MIT
+
+Schedule from: [F1 Schedule](https://github.com/sportstimes/f1/tree/main/_db/f1)
