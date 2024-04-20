@@ -3,7 +3,7 @@ WORKDIR /home/F1TelegramBot/src
 RUN microdnf -y install python39
 RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
 RUN python3 get-pip.py
-COPY 2023.json .
+COPY 2024.json .
 COPY f1telegrambot.py .
 COPY requirements.txt .
 COPY telegram_bot_token.json .
