@@ -107,7 +107,7 @@ Currently tested for year 2023 and might need update if Webpage gets updated
 """
 async def drivers(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     # Step 1: Preparing the Soup - Yummy Data!!
-    source = requests.get("https://www.formula1.com/en/results.html/2023/drivers.html").text
+    source = requests.get("https://www.formula1.com/en/results.html/2024/drivers.html").text
     soup = BeautifulSoup(source, 'lxml')
     
     # Step 2:  Search for required flavours in the Soup
@@ -137,7 +137,7 @@ Currently tested for year 2023 and might need update if Webpage gets updated
 """
 async def teams(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     # Step 1: Preparing the Soup - Yummy Data!!
-    source = requests.get("https://www.formula1.com/en/results.html/2023/team.html").text
+    source = requests.get("https://www.formula1.com/en/results.html/2024/team.html").text
     soup = BeautifulSoup(source, 'lxml')
 
     # Step 2:  Search for required flavours in the Soup
