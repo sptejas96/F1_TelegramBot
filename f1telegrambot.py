@@ -105,6 +105,7 @@ This provides details on the Driver standings in the form of a table.
 This function scrapes the data from the official F1 Website and processes it
 Currently tested for year 2023 and might need update if Webpage gets updated
 """
+"""
 async def drivers(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     # Step 1: Preparing the Soup - Yummy Data!!
     source = requests.get("https://www.formula1.com/en/results.html/2024/drivers.html").text
@@ -126,7 +127,8 @@ async def drivers(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
     # Create a reply message to user command
     await update.message.reply_text(f'<pre>{pt_table}</pre>', parse_mode=ParseMode.HTML)
-
+"""
+    
 """
 Teams function
 
@@ -134,6 +136,7 @@ This function is called from the main when the command teams is sent from telegr
 This provides details on the Constructor standings in the form of a table.
 This function scrapes the data from the official F1 Website and processes it
 Currently tested for year 2023 and might need update if Webpage gets updated
+"""
 """
 async def teams(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     # Step 1: Preparing the Soup - Yummy Data!!
@@ -156,6 +159,33 @@ async def teams(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     
     # Create a reply message to user command
     await update.message.reply_text(f'<pre>{pt_table}</pre>', parse_mode=ParseMode.HTML)
+"""
+
+def get_driver_standings():
+    response = requests.get('https://api.jolpi.ca/ergast/f1/2024/driverstandings.json')
+    data = response.json()
+    standings = data['MRData']['StandingsTable']['StandingsLists'][0]['DriverStandings']
+    return standings
+
+def get_constructor_standings():
+    response = requests.get('https://api.jolpi.ca/ergast/f1/2024/constructorstandings.json')
+    data = response.json()
+    standings = data['MRData']['StandingsTable']['StandingsLists'][0]['ConstructorStandings']
+    return standings
+
+async def drivers(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    standings = get_driver_standings()
+    message = 'Current Driver Standings:\n'
+    for standing in standings:
+        message += f"{standing['position']}. {standing['Driver']['code']} - {standing['points']} points\n"
+    await update.message.reply_text(message)
+
+async def teams(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    standings = get_constructor_standings()
+    message = 'Current Team Standings:\n'
+    for standing in standings:
+        message += f"{standing['position']}. {standing['Constructor']['name']} - {standing['points']} points\n"
+    await update.message.reply_text(message)
 
 """
 get_token()
